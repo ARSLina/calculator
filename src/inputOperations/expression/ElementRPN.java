@@ -6,16 +6,17 @@ import static inputOperations.InputOperation.calc;
 
 public class ElementRPN {
     //выражение
-    public static StringBuffer input;
-    static String bufer = "";
+
+    private static StringBuffer input;
+    private static String bufer = "";
 //    ДЛЯ ДОБАВЛЕНИЯ В ОПН
-    public static String primary = "";
-    public static String secondary = "";
-    public static String tertiary = "";
-    static ArrayList bktT = new ArrayList(); //массив с индексами скобок
-    static String trig = ""; //счетчик кол-ва скобок
-    static String inpTrig = ""; // триггер для отображения выражения, если не пуст, то показывам
-    public static String expTrig = ""; // триггер для вводв выражения, если не пуст, то показывам
+    private static String primary = "";
+    private static String secondary = "";
+    private static String tertiary = "";
+    private static ArrayList<Integer> bktT = new ArrayList<>(); //массив с индексами скобок
+    private static String trig = ""; //счетчик кол-ва скобок
+    private static String inpTrig = ""; // триггер для отображения выражения, если не пуст, то показывам
+    private static String expTrig = ""; // триггер для вводв выражения, если не пуст, то показывам
 
     public static void elementRPN(){
         if (expTrig.equals("")){
@@ -57,7 +58,8 @@ public class ElementRPN {
                 if (((c.equals("/"))||(c.equals("*")))&&(i!=0) && ((input.charAt(i-1)== '-')||(input.charAt(i-1)== '+')
                         ||(input.charAt(i-1)== '/')||(input.charAt(i-1)== '*')||(input.charAt(i-1)== '(')||
                 (input.charAt(i-1)== '.'))){
-                    System.out.println("\u001B[31m" +  "В вашем примере ошибка, попробуйте ввести заново"+"\u001B[0m" );
+                    System.out.println("\u001B[31m" +  "В вашем примере ошибка\u001B[0m "+input.charAt(i)
+                            + "\u001B[31m, попробуйте ввести заново "+"\u001B[0m");
                     expTrig = "";
                     elementRPN();
                 }
@@ -67,7 +69,8 @@ public class ElementRPN {
                     if (i!=0){
                         String a = String.valueOf(input.charAt(i-1));
                         if (a.matches("[0-9]")){
-                            System.out.println("\u001B[31m" +  "В вашем примере ошибка, попробуйте ввести заново"+"\u001B[0m" );
+                            System.out.println("\u001B[31m" +  "В вашем примере ошибка\u001B[0m "+input.charAt(i)
+                                    + "\u001B[31m, попробуйте ввести заново "+"\u001B[0m");
                             expTrig = "";
                             elementRPN();
                         }
@@ -77,7 +80,8 @@ public class ElementRPN {
                     trig = "1"; //нашли скобку
                 }
             }else {
-                System.out.println("\u001B[31m" +  "В вашем примере ошибка, попробуйте ввести заново"+"\u001B[0m" );
+                System.out.println("\u001B[31m" +  "В вашем примере ошибка\u001B[0m "+input.charAt(i)
+                        + "\u001B[31m, попробуйте ввести заново "+"\u001B[0m");
                 expTrig = "";
                 elementRPN();
             }
@@ -94,9 +98,9 @@ public class ElementRPN {
         еxpressions(input);
     }
 
-    public static void еxpressions(StringBuffer inputVar){
+    private static void еxpressions(StringBuffer inputVar){
         for (int i = 0; i < inputVar.length() ; i++) {
-            if (trig!="1"){
+            if (!trig.equals("1")){
                 bufer = String.valueOf(inputVar.charAt(i));
                 if ((bufer.matches("[0-9]")) || (bufer.equals("."))){
                     primary();
@@ -125,15 +129,15 @@ public class ElementRPN {
         ExpressionRPN.calculate( ExpressionRPN.expression);
     }
     //метод для первой скобки, добавление в массив id положения в строке
-    static void bracketsT(Integer id){
+    private static void bracketsT(Integer id){
         bktT.add(id);
     }
     //метод для второй скобки, вырезание строки, добавление в массив выражения в скобке
-    static void bracketsD(Integer id){
+    private static void bracketsD(Integer id){
         Integer d = bktT.size()-1; // получаем ко-во элементов с "("
-        /** (начало выреза в input) получаю ID в общей строке из массива с "(" (последний эл-т)*/
-        Integer idBKT_T = (Integer) bktT.get(d)+1;
-        /** формируем строку в найденном промежутке (скобка)*/
+        /* (начало выреза в input) получаю ID в общей строке из массива с "(" (последний эл-т)*/
+        Integer idBKT_T = bktT.get(d) +1;
+        /* формируем строку в найденном промежутке (скобка)*/
         StringBuffer exp = new StringBuffer(input.substring(idBKT_T, id) + " ");
 //        System.out.println("Найденная скобка " +exp);
         еxpressions(exp);
@@ -141,17 +145,17 @@ public class ElementRPN {
         input.delete(idBKT_T-1, id+1);
         input.insert(idBKT_T-1,  ExpressionRPN.expression.get(0)); //добавляем ответ в скобке в пример
         ExpressionRPN.expression.remove(0);
-        /** необходимо стереть значения в переменных для добавления в ОПН*/
+        /* необходимо стереть значения в переменных для добавления в ОПН*/
        primary = "";secondary = "";tertiary = "";
-        /** возвращаю наше выражение, для дальнейшего вычесления*/
+        /* возвращаю наше выражение, для дальнейшего вычесления*/
         elementRPN();
     }
 
-    static void primary(){
+    private static void primary(){
         //число
         primary = primary + bufer;
     }
-    static void secondary(){
+    private static void secondary(){
         //умножение, деление
         addPrimary();
         if (!secondary.equals("")){
@@ -161,13 +165,13 @@ public class ElementRPN {
             secondary = secondary + bufer;
         }
     }
-    static void tertiary(){
+    private static void tertiary(){
         //сложение, вычитание
         addPrimary();
         addSecondary();
         tertiary = tertiary + bufer;
     }
-    static void space(){
+    private static void space(){
         //пробел
         addPrimary();
         secondary();
@@ -177,13 +181,13 @@ public class ElementRPN {
             }
         }
     }
-    static void addPrimary(){
+    private static void addPrimary(){
         if (!primary.equals("")){
             ExpressionRPN.add(primary);
             primary = "";
         }
     }
-    static void addSecondary(){
+    private static void addSecondary(){
         if (!secondary.equals("")){
             ExpressionRPN.add(secondary);
             secondary = "";

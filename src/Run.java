@@ -2,7 +2,6 @@ import inputOperations.expression.ElementRPN;
 import inputOperations.expression.ExpressionRPN;
 
 public class Run {
-
     public static void main(String[] args) {
        try {
            ElementRPN.elementRPN();

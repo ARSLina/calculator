@@ -4,9 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ExpressionRPN {
-    static ArrayList expression = new ArrayList();
+    static ArrayList<String> expression = new ArrayList<>();
     static public String result = "";
-
     public static void add(String a){
         expression.add(a);
     }
@@ -28,7 +27,7 @@ public class ExpressionRPN {
                             d = a / b;
                             input.add(i-1, String.valueOf(d));
                             input.remove(i-2);
-                            System.out.println("\u001B[34m"+"деление "+ a +" и "+ b +"\u001B[0m" +"\n"+input);
+//                            System.out.println("\u001B[34m"+"деление "+ a +" и "+ b +"\u001B[0m" +"\n"+input);
                             i=0;break;
                         case "*":
                             a = Double.valueOf(input.get(i-2).trim());
@@ -38,7 +37,7 @@ public class ExpressionRPN {
                             d = a * b;
                             input.add(i-1, String.valueOf(d));
                             input.remove(i-2);
-                            System.out.println("\u001B[34m"+ "умножение "+ a +" и "+ b +"\u001B[0m" +"\n"+input);
+//                            System.out.println("\u001B[34m"+ "умножение "+ a +" и "+ b +"\u001B[0m" +"\n"+input);
                             i=0;break;
                         case "+":
                             a = Double.valueOf(input.get(0).trim());
@@ -48,7 +47,7 @@ public class ExpressionRPN {
                             d = a + b;
                             input.add(0, String.valueOf(d));
                             input.remove(i-1);
-                            System.out.println("\u001B[34m"+"сложение "+ a +" и "+ b +"\u001B[0m" +"\n"+input);
+//                            System.out.println("\u001B[34m"+"сложение "+ a +" и "+ b +"\u001B[0m" +"\n"+input);
                             i=0;break;
                         case "-":
                             a = Double.valueOf(input.get(0).trim());
@@ -58,13 +57,12 @@ public class ExpressionRPN {
                             d = a-b;
                             input.add(0, String.valueOf(d));
                             input.remove(i-1);
-                            System.out.println("\u001B[34m"+"вычтание "+ a +" и "+ b +"\u001B[0m" +"\n"+input);
+//                            System.out.println("\u001B[34m"+"вычтание "+ a +" и "+ b +"\u001B[0m" +"\n"+input);
                             i=0;break;
                     }
                 }
             }
         }
         result = input.get(0);
-//        System.out.println("Ответ " + input);
     }
 }
