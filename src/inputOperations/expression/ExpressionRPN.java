@@ -3,13 +3,30 @@ package inputOperations.expression;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExpressionRPN {
-    static ArrayList<String> expression = new ArrayList<>();
-    static public String result = "";
-    public static void add(String a){
-        expression.add(a);
+public abstract class ExpressionRPN {
+//    public static ArrayList<String> expression = new ArrayList<>();
+    private static String expression = "";
+    public static final int NUMBER = 0;
+    public static final int UN_OPERATOR = 1;
+    public static final int BI_OPERATOR = 2;
+    public static final int BRACKET = 3;
+
+
+    public void add(String a){
+      expression = expression + a;
     }
 
+    // Печатает элемент
+    public void print(Object o) {
+        System.out.print(o.toString());
+    }
+
+    // Возвращает тип элемента (число, ун. оператор, бин. оп., )
+    public abstract int getType();
+
+    public boolean isType(int type) {
+        return type == getType();
+    }
     public static void calculate(List<String> input){
 //        System.out.println("мой пример " + input);
         //метод, где получаем результат
@@ -63,6 +80,6 @@ public class ExpressionRPN {
                 }
             }
         }
-        result = input.get(0);
+        System.out.println("result: " + input.get(0));
     }
 }
