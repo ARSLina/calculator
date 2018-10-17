@@ -6,7 +6,7 @@ import java.util.Map;
 /**Оператор – добавляется поле int priority
  *и метод int getPriority();*/
 
- public class OperatorRPN extends ExpressionRPN {
+ public abstract class OperatorRPN extends ExpressionRPN {
     int priority;
 
     public int getPriority(int num) {
@@ -27,8 +27,8 @@ import java.util.Map;
     // Здесь будут храниться все операторы
     protected static Map<String, OperatorRPN> operators = new HashMap<>();
 
-     boolean isOperator(String name); // Есть ли оператор с таким именем
-     OperatorRPN getOperator(String name); // Получить оператор с таким именем
+    public abstract boolean isOperator(String name);
+     public abstract OperatorRPN getOperator(String name); // Получить оператор с таким именем
 
 
 }
