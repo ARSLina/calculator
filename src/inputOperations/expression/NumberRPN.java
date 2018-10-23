@@ -7,21 +7,17 @@ package inputOperations.expression;
 public class NumberRPN extends ElementRPN{
     private static int number =0;
 
-     public void setNum(int num) {
-       // number = number + num;
-       number = num;
+    public void setNum(int num) {
+        // number = number + num;
+        number = num;
     }
 
-    public boolean isType(/*int type, */int num) {
-        if (NUMBER == getType()){
-
-        }
-         return super.isType(getType());
+    public boolean isType(int type) {
+        return super.isType(getType());
     }
 
     @Override
     public int getType() {
-
         return NUMBER;
     }
 
