@@ -8,17 +8,13 @@ import inputOperations.InputOperation;
 
 import java.util.function.BinaryOperator;
 
+import static inputOperations.InputOperation.input;
 import static inputOperations.InputOperation.operator;
-
-
-/**    Бинарный оператор – переопределить getType, добавить конструктор,
- * принимающий 3 параметра – name, priority и action. Action – лямбда,
- * принимающая 2 параметра типа double (это же бинарный оператор) и возвращающая double.*/
 
 public class BiOperatorRPN extends OperatorRPN {
     static double result;
     public static InputOperation inputOperation = new InputOperation();
-
+    static int id = 0;
     public BiOperatorRPN(double x, double y, BinaryOperator<Double> converter) {
         System.out.println("в резулте " + x + " "+ y );
         result = converter.apply(x,y);
@@ -39,7 +35,7 @@ public class BiOperatorRPN extends OperatorRPN {
         System.out.println("Оператор "  + operator +expression);
         switch (operator){
             case "+":{
-                operators.put("+", new BiOperatorRPN(Double.valueOf(expression.get(expression.size()-2)), Double.valueOf(expression.get(expression.size()-1)), (Double a, Double b) -> a + b));
+                operators.put("+", new BiOperatorRPN(Double.valueOf(expression.get(expression.size()-2)), Double.valueOf(expression.get(expression.size()-1)), ( a, b) -> a + b));
                 operator = "";
                 break;
             }
@@ -54,15 +50,17 @@ public class BiOperatorRPN extends OperatorRPN {
                 break;
             }
             case "/":{
-                result ==  new BiOperatorRPN(Double.valueOf(expression.get(expression.size()-2)), Double.valueOf(expression.get(expression.size()-1)),(a, b)-> a / b);
-                operators.put("/");
+                operators.put("/",  new BiOperatorRPN(Double.valueOf(expression.get(expression.size()-2)), Double.valueOf(expression.get(expression.size()-1)),(a, b)-> a / b));
+                //удаляем числа с выражений
+                expression.remove(expression.size()-2);expression.remove(expression.size()-1);
+
+                //добавляем в массив ответ выражения
+                expression.add(expression.size(), String.valueOf(result));
                 operator = "";
-                System.out.println("Map " + operators);
+                System.out.println("Map " + operators + "  " + expression+ "  " + input);
                 break;
             }
-
         }
         System.out.println("ответ "  + result);
     }
-
 }

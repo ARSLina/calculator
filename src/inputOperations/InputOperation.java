@@ -12,7 +12,7 @@ import java.util.function.BinaryOperator;
 import java.util.function.ObjDoubleConsumer;
 
 public class InputOperation {
-    private static StringBuffer input = new StringBuffer("5/6");
+    public static StringBuffer input = new StringBuffer("-5/6+2-5*8");
 
     private static String expression;
 
@@ -26,7 +26,6 @@ public class InputOperation {
             return 0;
         }
     };
-
     OperatorRPN operatorRPN = new OperatorRPN();
 
     //для ввода примера
@@ -57,23 +56,25 @@ public class InputOperation {
 //        input = new StringBuffer(calc());
         // удаление не нужных пробелов в выражении
         correct();
-        input = input.insert(input.length() , ";");
+        input = input.insert(input.length() , " ");
+        System.out.println( input);
+        String previousOperator = "";
         for (int i = 0; i < input.length(); i++) {
             String c = String.valueOf(input.charAt(i));
-//            System.out.println(c);
-//            System.out.println(input);
+
+            if( (i == 0) && (c.equals("-"))){
+                previousOperator = String.valueOf(input.charAt(i)-1);
+                System.out.println("Унарный минус " + previousOperator );
+            }
+
             try{
                 numberRPN.isType(Integer.valueOf(c));
                 number = number + c;
 
-//                System.out.println("число "  + number);
             }catch (Exception ignored){
                 elementRPN.add(number);
                 number = "";
-                if(!operator.equals("")){
-                    operatorRPN.isOperator(operator);
-                }
-                operator = operator + c;
+                operatorRPN.isOperator(previousOperator, c);
             }
         }
     }
