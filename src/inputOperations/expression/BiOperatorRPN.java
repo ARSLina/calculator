@@ -9,14 +9,12 @@ import inputOperations.InputOperation;
 import java.util.function.BinaryOperator;
 
 import static inputOperations.InputOperation.input;
-import static inputOperations.InputOperation.operator;
 
 public class BiOperatorRPN extends OperatorRPN {
     static double result;
-    public static InputOperation inputOperation = new InputOperation();
-    static int id = 0;
+    static String operator;
     public BiOperatorRPN(double x, double y, BinaryOperator<Double> converter) {
-        System.out.println("в резулте " + x + " "+ y );
+        System.out.println("в результате " + x + " "+ y );
         result = converter.apply(x,y);
     }
 
@@ -32,25 +30,26 @@ public class BiOperatorRPN extends OperatorRPN {
     }
 
     static {
-        System.out.println("Оператор "  + operator +expression);
         switch (operator){
             case "+":{
-                operators.put("+", new BiOperatorRPN(Double.valueOf(expression.get(expression.size()-2)), Double.valueOf(expression.get(expression.size()-1)), ( a, b) -> a + b));
+                expression
+//                operators.put("+", new BiOperatorRPN(Double.valueOf(expression.get(expression.size()-2)), Double.valueOf(expression.get(expression.size()-1)), ( a, b) -> a + b));
                 operator = "";
                 break;
             }
             case "-":{
-                operators.put("-", new BiOperatorRPN(Double.valueOf(expression.get(expression.size()-2)), Double.valueOf(expression.get(expression.size()-1)),(a, b)-> a - b));
+//                operators.put("-", new BiOperatorRPN(Double.valueOf(expression.get(expression.size()-2)), Double.valueOf(expression.get(expression.size()-1)),(a, b)-> a - b));
                 operator = "";
                 break;
             }
             case "*":{
-                operators.put("*", new BiOperatorRPN(Double.valueOf(expression.get(expression.size()-2)), Double.valueOf(expression.get(expression.size()-1)),(a, b)-> a * b));
+
+//                operators.put("*", new BiOperatorRPN(Double.valueOf(expression.get(expression.size()-2)), Double.valueOf(expression.get(expression.size()-1)),(a, b)-> a * b));
                 operator = "";
                 break;
             }
             case "/":{
-                operators.put("/",  new BiOperatorRPN(Double.valueOf(expression.get(expression.size()-2)), Double.valueOf(expression.get(expression.size()-1)),(a, b)-> a / b));
+//                operators.put("/",  new BiOperatorRPN(Double.valueOf(expression.get(expression.size()-2)), Double.valueOf(expression.get(expression.size()-1)),(a, b)-> a / b));
                 //удаляем числа с выражений
                 expression.remove(expression.size()-2);expression.remove(expression.size()-1);
 

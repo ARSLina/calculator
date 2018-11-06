@@ -1,13 +1,20 @@
 package inputOperations.expression;
 
 public abstract class ElementRPN extends  ExpressionRPN{
+    public String element = "";
+    NumberRPN nRPN;
 
-//    NumberRPN nRPN = new NumberRPN();
-
-//    public int getType(String c) {
-//        nRPN.getType();
-//        return 0;
-//    }
+    @Override
+    public int getType() {
+        if(nRPN.isType(1)){
+            System.out.println("number " + element);
+            return NUMBER;
+        }else {
+            System.out.println("not number " + element);
+        }
+        System.out.println("element "+ element);
+        return 5;
+    }
 
     public boolean isType(int type) {
 

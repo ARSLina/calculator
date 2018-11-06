@@ -5,15 +5,15 @@ package inputOperations.expression;
  * getType и toString()*/
 
 public class NumberRPN extends ElementRPN{
-    private static int number =0;
+    String number = "";
 
-    public void setNum(int num) {
-        // number = number + num;
-        number = num;
+    public boolean num (double num) {
+       return true;
     }
 
     public boolean isType(int type) {
-        return super.isType(getType());
+        if (!Character.isDigit(type)) return false;
+    return true;
     }
 
     @Override

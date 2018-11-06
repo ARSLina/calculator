@@ -10,15 +10,19 @@ import java.util.*;
 public class OperatorRPN extends ExpressionRPN {
     int priority;
     public String op = "null;null;null;null";
-    String d = "";
+    String operatorRPN;
     ArrayList<String> operatorsList = new ArrayList<String>(Arrays.asList(op.split(";")));
 
+    public OperatorRPN() {
+
+    }
 
     public int getPriority(String operator) {
         if (operator.equals("(")||operator.equals(")")){
             return priority = 1;
         }
         if (operator.equals("*")||operator.equals("/")){
+            priority = 2;
             return priority = 2;
         }
         if (operator.equals("+")||operator.equals("-")){
@@ -39,35 +43,27 @@ public class OperatorRPN extends ExpressionRPN {
     }
 
     // Здесь будут храниться все операторы
-    protected static Map<String, OperatorRPN> operators = new HashMap<>();
+    protected static Map<Integer, OperatorRPN> operators = new HashMap<>();
 
-    public boolean isOperator(String previousOperator, String nameOperator) {
-        //заполняем в правильном порядке массив из операторов
-        if (nameOperator.equals("+") || nameOperator.equals("-") || nameOperator.equals("*") ||
-                nameOperator.equals("/") || nameOperator.equals("(") || nameOperator.equals(")") ||
-                nameOperator.equals("(")){
-            if(nameOperator.equals("-") && previousOperator.equals(null) || previousOperator.equals("(") ){
-                //вызов унарного класса
-
-                return false;
-            }
-
-            String bufer = operatorsList.get(getPriority(nameOperator))+ " " + nameOperator;
-            if (!operatorsList.get(getPriority(nameOperator)).equals("null")){
-                operatorsList.remove(getPriority(nameOperator));
-                operatorsList.add(getPriority(nameOperator), bufer);
-            }else {
-                operatorsList.remove(getPriority(nameOperator));
-                operatorsList.add(getPriority(nameOperator),nameOperator);
-            }
-            System.out.println(operatorsList);
-            priority =0;
-//            expression.add(expression.size())getPriority(name);
+    public boolean isOperator(String name) {
+        System.out.println("получил " + name);
+        if (getPriority(name)>0){
+            operators.put(getPriority(name), new OperatorRPN(name));
+            System.out.println("мой оператор "+ operators);
             return true;
+        }else {
+            return false;
         }
-        return false;
     }
+    @Override
+    public String toString() {
+        return operatorRPN;// "OperatorRPN [name=" + operatorRPN+"]";
+    }
+
     // Получить оператор с таким именем
+    public OperatorRPN(String name) {
+       this.operatorRPN = name;
+    }
     public  OperatorRPN getOperator(String name) {
         return null;
     }
