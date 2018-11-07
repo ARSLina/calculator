@@ -11,10 +11,20 @@ import java.util.function.BinaryOperator;
 import static inputOperations.InputOperation.input;
 
 public class BiOperatorRPN extends OperatorRPN {
+
     static double result;
-    static String operator;
+    public static String biOperator = "";
+    public static int z;
+
+
+    public static void biOperatorRPN (int index , String operator){
+        biOperator = operator;
+        z = index;
+    }
+    public BiOperatorRPN(){
+
+    }
     public BiOperatorRPN(double x, double y, BinaryOperator<Double> converter) {
-        System.out.println("в результате " + x + " "+ y );
         result = converter.apply(x,y);
     }
 
@@ -29,34 +39,38 @@ public class BiOperatorRPN extends OperatorRPN {
         return super.isType(type);
     }
 
-    static {
+
+    public static void BiOperatorRPN(int index, String operator){
+        ElementRPN elementRPN = new ElementRPN() {
+            @Override
+            public void correctExpression(int index, double number) {
+                super.correctExpression(index, number);
+            }
+        };
         switch (operator){
             case "+":{
-                expression
-//                operators.put("+", new BiOperatorRPN(Double.valueOf(expression.get(expression.size()-2)), Double.valueOf(expression.get(expression.size()-1)), ( a, b) -> a + b));
-                operator = "";
+                new BiOperatorRPN(Double.parseDouble(ElementRPN.expression.get(index-2)), Double.parseDouble(ElementRPN.expression.get(index)),(a, b)-> a + b);
+                elementRPN.correctExpression(index, result);
                 break;
             }
             case "-":{
-//                operators.put("-", new BiOperatorRPN(Double.valueOf(expression.get(expression.size()-2)), Double.valueOf(expression.get(expression.size()-1)),(a, b)-> a - b));
-                operator = "";
+                new BiOperatorRPN(Double.parseDouble(ElementRPN.expression.get(index-2)), Double.parseDouble(ElementRPN.expression.get(index)),(a, b)-> a - b);
+                elementRPN.correctExpression(index, result);
                 break;
             }
             case "*":{
-
-//                operators.put("*", new BiOperatorRPN(Double.valueOf(expression.get(expression.size()-2)), Double.valueOf(expression.get(expression.size()-1)),(a, b)-> a * b));
-                operator = "";
+                new BiOperatorRPN(Double.parseDouble(ElementRPN.expression.get(index-2)), Double.parseDouble(ElementRPN.expression.get(index)),(a, b)-> a * b);
+                operators.remove(2);
+                elementRPN.correctExpression(index, result);
                 break;
             }
             case "/":{
-//                operators.put("/",  new BiOperatorRPN(Double.valueOf(expression.get(expression.size()-2)), Double.valueOf(expression.get(expression.size()-1)),(a, b)-> a / b));
-                //удаляем числа с выражений
-                expression.remove(expression.size()-2);expression.remove(expression.size()-1);
-
-                //добавляем в массив ответ выражения
-                expression.add(expression.size(), String.valueOf(result));
-                operator = "";
-                System.out.println("Map " + operators + "  " + expression+ "  " + input);
+                new BiOperatorRPN(Double.parseDouble(ElementRPN.expression.get(index-2)), Double.parseDouble(ElementRPN.expression.get(index)),(a, b)-> a / b);
+                elementRPN.correctExpression(index, result);
+                break;
+            }
+            case "":{
+                System.out.println("nenf");
                 break;
             }
         }

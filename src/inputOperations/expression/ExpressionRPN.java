@@ -18,6 +18,14 @@ public abstract class ExpressionRPN {
         expression.add(a);
     }
 
+    public void correctExpression(int index, double number){
+        expression.remove(index);
+        expression.remove(index-1);
+        expression.remove(index-2);
+        expression.add(index-2, String.valueOf(number));
+//        System.out.println("aaaaaa "+ expression);
+    }
+
     // Печатает элемент
     public void print(Object o) {
         System.out.print(o.toString());
@@ -29,6 +37,4 @@ public abstract class ExpressionRPN {
     public boolean isType(int type) {
         return type == getType();
     }
-
-
 }

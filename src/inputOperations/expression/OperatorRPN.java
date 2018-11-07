@@ -8,7 +8,7 @@ import java.util.*;
  *и метод int getPriority();*/
 
 public class OperatorRPN extends ExpressionRPN {
-    int priority;
+    String priority;
     public String op = "null;null;null;null";
     String operatorRPN;
     ArrayList<String> operatorsList = new ArrayList<String>(Arrays.asList(op.split(";")));
@@ -17,18 +17,17 @@ public class OperatorRPN extends ExpressionRPN {
 
     }
 
-    public int getPriority(String operator) {
+    public String getPriority(String operator) {
         if (operator.equals("(")||operator.equals(")")){
-            return priority = 1;
+            return BracketRPN.getBracket(operator);
         }
         if (operator.equals("*")||operator.equals("/")){
-            priority = 2;
-            return priority = 2;
+            return priority = "2";
         }
         if (operator.equals("+")||operator.equals("-")){
-            return priority = 3;
+            return priority = "3";
         }
-        return priority = 0;
+        return priority = "";
     }
 
 
@@ -43,13 +42,12 @@ public class OperatorRPN extends ExpressionRPN {
     }
 
     // Здесь будут храниться все операторы
-    protected static Map<Integer, OperatorRPN> operators = new HashMap<>();
+    protected static Map<String, OperatorRPN> operators = new HashMap<>();
 
     public boolean isOperator(String name) {
-        System.out.println("получил " + name);
-        if (getPriority(name)>0){
+        if (!getPriority(name).equals("")){
             operators.put(getPriority(name), new OperatorRPN(name));
-            System.out.println("мой оператор "+ operators);
+//            System.out.println("мой оператор "+ operators);
             return true;
         }else {
             return false;

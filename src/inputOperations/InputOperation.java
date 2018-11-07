@@ -1,8 +1,6 @@
 package inputOperations;
 
-import inputOperations.expression.ElementRPN;
-import inputOperations.expression.NumberRPN;
-import inputOperations.expression.OperatorRPN;
+import inputOperations.expression.*;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -11,8 +9,10 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 public class InputOperation {
-    public static StringBuffer input = new StringBuffer("2-5*8+3/5");
+    public static StringBuffer input = new StringBuffer("(3+5)*8");
+    BiOperatorRPN biOperatorRPN = new BiOperatorRPN();
     ArrayList <String> sumbols = new ArrayList<>();
+    BracketRPN bracketRPN = new BracketRPN();
     ElementRPN elementRPN = new ElementRPN() {
         @Override
         public int getType() {
@@ -21,6 +21,7 @@ public class InputOperation {
     };
     NumberRPN numberRPN = new NumberRPN();
     OperatorRPN operatorRPN = new OperatorRPN();
+
     String operator;
 
     //для ввода примера
@@ -63,41 +64,58 @@ public class InputOperation {
         input.insert(input.length(), " ");
     }
 
+    public void calc(int i){
+
+    }
     public void input() {
-//        input = new StringBuffer(calc());
-        // удаление не нужных пробелов в выражении
 //        inputExample();
         correct();
-//        System.out.println("My expression " + input);
         ElementRPN.expression = new ArrayList<String>( Arrays.asList(String.valueOf(input).split(" ")));
         System.out.println("My expression " + ElementRPN.expression);
 
-//        Pattern pattern = Pattern.compile("\\-?\\d+(?:\\.\\d+(?:E[\\-\\+]\\d{2})?)?");
-//        Matcher matcher = pattern.matcher(input);
-//        while (matcher.find()) {
-//            String group = matcher.group();
-//            doubleArrayList.add(Double.valueOf(group));
-////            elementRPN.element = String.valueOf(input.charAt(i));
-////            elementRPN.getType();
-//            System.out.println("chert " +doubleArrayList + " "+  group);
-//        }
-//        sumbols.add(String.valueOf(input).replaceAll("[^-\\+\\*\\/]", ""));
-//        System.out.println("symbol "+ sumbols);
         for (int i = 0; i < ElementRPN.expression.size(); i++) {
             try {
+                // число ли это
                 numberRPN.num(Double.parseDouble(ElementRPN.expression.get(i)));
-//                System.out.println("u " + numberRPN.num(Double.parseDouble(expression.get(i))));
-                if(operatorRPN.getPriority(operator) == 1){
-                    //для скобок
+
+                if(!operator.equals("")) {
+
+                    //для ( )
+                    if (operatorRPN.getPriority(operator).equals("b1")) {
+                        //для скобок
+                        while (!ElementRPN.expression.get(i).equals(")")) {
+                            bracketRPN.add(ElementRPN.expression.get(i));
+                            i++;
+                        }
+                        System.out.println("в скобках" + BracketRPN.bracketEx);
+                        //прогоняем то что в скобках
+                        for (int j = 0; j < BracketRPN.bracketEx.size(); i++) {
+                            try {
+                                // число ли это
+                                numberRPN.num(Double.parseDouble(BracketRPN.bracketEx.get(i)));
+                            } catch (Exception e) {
+                                operator = BracketRPN.bracketEx.get(i);
+                                operatorRPN.isOperator(operator);
+                            }
+                        }
+                    }
+                    if(operatorRPN.getPriority(operator).equals("2")){
+                        //для /*
+                        BiOperatorRPN.BiOperatorRPN(i,operator);
+                        operator = "";
+                        i=0;
+                    }
+                    //сделать счетчик для записи в карту для +-
+                    if(operatorRPN.getPriority(operator).equals("3")){
+                        //для +-
+                        BiOperatorRPN.BiOperatorRPN(i,operator);
+                        operator = "";
+                        i=0;
+                    }
                 }
-                if(operatorRPN.getPriority(operator) == 2){
-                    //для скобок
-                }
-                operatorRPN.getPriority(operator);
             }catch (Exception e){
                 operator = ElementRPN.expression.get(i);
                 operatorRPN.isOperator(operator);
-//                System.out.println("не дабл " + expression.get(i));
             }
         }
     }
