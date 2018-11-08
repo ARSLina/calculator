@@ -9,7 +9,7 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 public class InputOperation {
-    public static StringBuffer input = new StringBuffer("(3+5)*8");
+    public static StringBuffer input = new StringBuffer("5*8");
     BiOperatorRPN biOperatorRPN = new BiOperatorRPN();
     ArrayList <String> sumbols = new ArrayList<>();
     BracketRPN bracketRPN = new BracketRPN();
@@ -64,8 +64,32 @@ public class InputOperation {
         input.insert(input.length(), " ");
     }
 
-    public void calc(int i){
+    public void calc(String priority){
+        if (priority.equals("2")) {
 
+        }
+        if (priority.equals("3") && operatorRPN.operators.get("2").equals(null) && operatorRPN.operators.get("1").equals(null)) {
+
+        }
+            switch (priority){
+                case "1":{
+
+                }
+                case "2":{
+
+                }
+                case "3":{
+
+                }
+            }
+        }
+
+        if(operatorRPN.getPriority(operator).equals("2")){
+//                        //для /*
+//                        BiOperatorRPN.BiOperatorRPN(i,operator);
+//                        operator = "";
+//                        i=0;
+//                    }
     }
     public void input() {
 //        inputExample();
@@ -77,42 +101,49 @@ public class InputOperation {
             try {
                 // число ли это
                 numberRPN.num(Double.parseDouble(ElementRPN.expression.get(i)));
+                System.out.println(operatorRPN.operators.get("2"));
+                if (!operatorRPN.operators.get("2").equals(null)){
+                    System.out.println("нашел пустоту");
 
-                if(!operator.equals("")) {
-
-                    //для ( )
-                    if (operatorRPN.getPriority(operator).equals("b1")) {
-                        //для скобок
-                        while (!ElementRPN.expression.get(i).equals(")")) {
-                            bracketRPN.add(ElementRPN.expression.get(i));
-                            i++;
-                        }
-                        System.out.println("в скобках" + BracketRPN.bracketEx);
-                        //прогоняем то что в скобках
-                        for (int j = 0; j < BracketRPN.bracketEx.size(); i++) {
-                            try {
-                                // число ли это
-                                numberRPN.num(Double.parseDouble(BracketRPN.bracketEx.get(i)));
-                            } catch (Exception e) {
-                                operator = BracketRPN.bracketEx.get(i);
-                                operatorRPN.isOperator(operator);
-                            }
-                        }
-                    }
-                    if(operatorRPN.getPriority(operator).equals("2")){
-                        //для /*
-                        BiOperatorRPN.BiOperatorRPN(i,operator);
-                        operator = "";
-                        i=0;
-                    }
-                    //сделать счетчик для записи в карту для +-
-                    if(operatorRPN.getPriority(operator).equals("3")){
-                        //для +-
-                        BiOperatorRPN.BiOperatorRPN(i,operator);
-                        operator = "";
-                        i=0;
-                    }
+                }else{
+                    System.out.println("игнор");
                 }
+
+//                if(!operator.equals("")) {
+//
+//                    //для ( )
+//                    if (operatorRPN.getPriority(operator).equals("b1")) {
+//                        //для скобок
+//                        while (!ElementRPN.expression.get(i).equals(")")) {
+//                            bracketRPN.add(ElementRPN.expression.get(i));
+//                            i++;
+//                        }
+//                        System.out.println("в скобках" + BracketRPN.bracketEx);
+//                        //прогоняем то что в скобках
+//                        for (int j = 0; j < BracketRPN.bracketEx.size(); i++) {
+//                            try {
+//                                // число ли это
+//                                numberRPN.num(Double.parseDouble(BracketRPN.bracketEx.get(i)));
+//                            } catch (Exception e) {
+//                                operator = BracketRPN.bracketEx.get(i);
+//                                operatorRPN.isOperator(operator);
+//                            }
+//                        }
+//                    }
+//                    if(operatorRPN.getPriority(operator).equals("2")){
+//                        //для /*
+//                        BiOperatorRPN.BiOperatorRPN(i,operator);
+//                        operator = "";
+//                        i=0;
+//                    }
+//                    //сделать счетчик для записи в карту для +-
+//                    if(operatorRPN.getPriority(operator).equals("3")){
+//                        //для +-
+//                        BiOperatorRPN.BiOperatorRPN(i,operator);
+//                        operator = "";
+//                        i=0;
+//                    }
+//                }
             }catch (Exception e){
                 operator = ElementRPN.expression.get(i);
                 operatorRPN.isOperator(operator);

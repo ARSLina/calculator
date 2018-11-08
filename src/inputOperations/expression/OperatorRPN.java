@@ -42,11 +42,12 @@ public class OperatorRPN extends ExpressionRPN {
     }
 
     // Здесь будут храниться все операторы
-    protected static Map<String, OperatorRPN> operators = new HashMap<>();
+    public static Map<String, OperatorRPN> operators = new HashMap<>();
 
     public boolean isOperator(String name) {
         if (!getPriority(name).equals("")){
             operators.put(getPriority(name), new OperatorRPN(name));
+//            System.out.println("в операторе " + operators.get("2"));
 //            System.out.println("мой оператор "+ operators);
             return true;
         }else {
