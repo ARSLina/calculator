@@ -1,13 +1,12 @@
 package inputOperations.expression;
 
-import com.sun.org.apache.xpath.internal.operations.Operation;
-
 import java.util.*;
 
 /**Оператор – добавляется поле int priority
  *и метод int getPriority();*/
 
 public class OperatorRPN extends ExpressionRPN {
+    public static double result;
     String priority;
     public String op = "null;null;null;null";
     String operatorRPN;
@@ -63,7 +62,16 @@ public class OperatorRPN extends ExpressionRPN {
     public OperatorRPN(String name) {
        this.operatorRPN = name;
     }
-    public  OperatorRPN getOperator(String name) {
-        return null;
+    public int getOperator(String operator, String p1, String p2) {
+        NumberRPN numberRPN = new NumberRPN();
+        if (numberRPN.num(Double.parseDouble(p1)) == true && numberRPN.num(Double.parseDouble(p2)) == true ){
+            BiOperatorRPN.BiOperatorRPN(Double.parseDouble(p1),Double.parseDouble(p2),operator);
+            return BI_OPERATOR;
+        }
+        if (p2.equals(null) || numberRPN.num(Double.parseDouble(p2)) == false){
+            System.out.println("нашел унарность");
+            return UN_OPERATOR;
+        }
+        return 0;
     }
 }

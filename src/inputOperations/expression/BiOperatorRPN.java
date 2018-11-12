@@ -12,7 +12,7 @@ import static inputOperations.InputOperation.input;
 
 public class BiOperatorRPN extends OperatorRPN {
 
-    static double result;
+
     public static String biOperator = "";
     public static int z;
 
@@ -40,33 +40,26 @@ public class BiOperatorRPN extends OperatorRPN {
     }
 
 
-    public static void BiOperatorRPN(int index, String operator){
-        ElementRPN elementRPN = new ElementRPN() {
-            @Override
-            public void correctExpression(int index, double number) {
-                super.correctExpression(index, number);
-            }
-        };
+    public static void BiOperatorRPN(double p1, double p2, String operator){
         switch (operator){
             case "+":{
-                new BiOperatorRPN(Double.parseDouble(ElementRPN.expression.get(index-2)), Double.parseDouble(ElementRPN.expression.get(index)),(a, b)-> a + b);
-                elementRPN.correctExpression(index, result);
+                new BiOperatorRPN(p1, p2,(a, b)-> a + b);
+                System.out.println("result " + result);
                 break;
             }
             case "-":{
-                new BiOperatorRPN(Double.parseDouble(ElementRPN.expression.get(index-2)), Double.parseDouble(ElementRPN.expression.get(index)),(a, b)-> a - b);
-                elementRPN.correctExpression(index, result);
+                new BiOperatorRPN(p1, p2,(a, b)-> a - b);
+                System.out.println("result " + result);
                 break;
             }
             case "*":{
-                new BiOperatorRPN(Double.parseDouble(ElementRPN.expression.get(index-2)), Double.parseDouble(ElementRPN.expression.get(index)),(a, b)-> a * b);
-                operators.remove(2);
-                elementRPN.correctExpression(index, result);
+                new BiOperatorRPN(p1, p2,(a, b)-> a * b);
+                System.out.println("result " + result);
                 break;
             }
             case "/":{
-                new BiOperatorRPN(Double.parseDouble(ElementRPN.expression.get(index-2)), Double.parseDouble(ElementRPN.expression.get(index)),(a, b)-> a / b);
-                elementRPN.correctExpression(index, result);
+                new BiOperatorRPN(p1, p2,(a, b)-> a / b);
+                System.out.println("result " + result);
                 break;
             }
             case "":{

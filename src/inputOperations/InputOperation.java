@@ -9,7 +9,7 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 public class InputOperation {
-    public static StringBuffer input = new StringBuffer("5*8");
+    public static StringBuffer input = new StringBuffer("5*8+6");
     BiOperatorRPN biOperatorRPN = new BiOperatorRPN();
     ArrayList <String> sumbols = new ArrayList<>();
     BracketRPN bracketRPN = new BracketRPN();
@@ -23,6 +23,7 @@ public class InputOperation {
     OperatorRPN operatorRPN = new OperatorRPN();
 
     String operator;
+    Integer op;
 
     //для ввода примера
     public String inputExample() {
@@ -84,13 +85,7 @@ public class InputOperation {
             }
         }
 
-        if(operatorRPN.getPriority(operator).equals("2")){
-//                        //для /*
-//                        BiOperatorRPN.BiOperatorRPN(i,operator);
-//                        operator = "";
-//                        i=0;
-//                    }
-    }
+
     public void input() {
 //        inputExample();
         correct();
@@ -103,10 +98,31 @@ public class InputOperation {
                 numberRPN.num(Double.parseDouble(ElementRPN.expression.get(i)));
                 System.out.println(operatorRPN.operators.get("2"));
                 if (!operatorRPN.operators.get("2").equals(null)){
-                    System.out.println("нашел пустоту");
-
-                }else{
-                    System.out.println("игнор");
+                    System.out.println("нашел" + operatorRPN.operators.get("2"));
+                    try{
+                        op = operatorRPN.getOperator(operator, ElementRPN.expression.get(i-2), ElementRPN.expression.get(i));
+                        elementRPN.correctExpression(op, i, operatorRPN.result);
+                        operatorRPN.operators.remove("2");
+                        i=0;
+                    }catch (Exception e){
+                        op = operatorRPN.getOperator(operator, ElementRPN.expression.get(i), null);
+                        elementRPN.correctExpression(op, i, operatorRPN.result);
+                        i=0;
+                    }
+                }
+                System.out.println("индн" + (ElementRPN.expression.size()-1) + " " + i);
+                if (i==ElementRPN.expression.size()-1 && operatorRPN.operators.get("1").equals(null)
+                        && operatorRPN.operators.get("2").equals(null)){
+                    try{
+                        op = operatorRPN.getOperator(operator, ElementRPN.expression.get(i-2), ElementRPN.expression.get(i));
+                        elementRPN.correctExpression(op, i, operatorRPN.result);
+                        operatorRPN.operators.remove("2");
+                        i=0;
+                    }catch (Exception e){
+                        op = operatorRPN.getOperator(operator, ElementRPN.expression.get(i), null);
+                        elementRPN.correctExpression(op, i, operatorRPN.result);
+                        i=0;
+                    }
                 }
 
 //                if(!operator.equals("")) {
