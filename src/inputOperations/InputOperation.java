@@ -10,8 +10,6 @@ import java.util.regex.Pattern;
 
 public class InputOperation {
     public static StringBuffer input = new StringBuffer("5*8+6");
-    BiOperatorRPN biOperatorRPN = new BiOperatorRPN();
-    ArrayList <String> sumbols = new ArrayList<>();
     BracketRPN bracketRPN = new BracketRPN();
     ElementRPN elementRPN = new ElementRPN() {
         @Override
@@ -24,6 +22,7 @@ public class InputOperation {
 
     String operator;
     Integer op;
+    Integer inputCorrect =0;
 
     //для ввода примера
     public String inputExample() {
@@ -65,63 +64,50 @@ public class InputOperation {
         input.insert(input.length(), " ");
     }
 
-    public void calc(String priority){
-        if (priority.equals("2")) {
-
-        }
-        if (priority.equals("3") && operatorRPN.operators.get("2").equals(null) && operatorRPN.operators.get("1").equals(null)) {
-
-        }
-            switch (priority){
-                case "1":{
-
-                }
-                case "2":{
-
-                }
-                case "3":{
-
-                }
-            }
-        }
-
-
-    public void input() {
-//        inputExample();
+    public void corrrectArray(){
+        //        inputExample();
         correct();
         ElementRPN.expression = new ArrayList<String>( Arrays.asList(String.valueOf(input).split(" ")));
         System.out.println("My expression " + ElementRPN.expression);
+        inputCorrect =1;
+    }
 
+    public void input() {
+        if (!inputCorrect.equals(1)){
+            corrrectArray();
+        }
         for (int i = 0; i < ElementRPN.expression.size(); i++) {
             try {
                 // число ли это
                 numberRPN.num(Double.parseDouble(ElementRPN.expression.get(i)));
-                System.out.println(operatorRPN.operators.get("2"));
+                System.out.println("MAP "+operatorRPN.operators);
                 if (!operatorRPN.operators.get("2").equals(null)){
-                    System.out.println("нашел" + operatorRPN.operators.get("2"));
                     try{
                         op = operatorRPN.getOperator(operator, ElementRPN.expression.get(i-2), ElementRPN.expression.get(i));
                         elementRPN.correctExpression(op, i, operatorRPN.result);
                         operatorRPN.operators.remove("2");
-                        i=0;
+                        input();
                     }catch (Exception e){
                         op = operatorRPN.getOperator(operator, ElementRPN.expression.get(i), null);
                         elementRPN.correctExpression(op, i, operatorRPN.result);
-                        i=0;
+                        input();
                     }
                 }
-                System.out.println("индн" + (ElementRPN.expression.size()-1) + " " + i);
-                if (i==ElementRPN.expression.size()-1 && operatorRPN.operators.get("1").equals(null)
-                        && operatorRPN.operators.get("2").equals(null)){
+                System.out.println("eeeto "+operatorRPN.operators.get("3") + " "+ ElementRPN.expression.size() + " "+ i +" "+ ElementRPN.expression.get(i)+ " " + operatorRPN.operators.get("1")+ " " + operatorRPN.operators.get("2") );
+                if (i==(ElementRPN.expression.size()-1) &&
+                        operatorRPN.operators.get("1").equals(null)
+//                        && operatorRPN.operators.get("2").equals(null)
+                        ){
+                    System.out.println("вошел");
                     try{
                         op = operatorRPN.getOperator(operator, ElementRPN.expression.get(i-2), ElementRPN.expression.get(i));
                         elementRPN.correctExpression(op, i, operatorRPN.result);
                         operatorRPN.operators.remove("2");
-                        i=0;
+                        input();
                     }catch (Exception e){
                         op = operatorRPN.getOperator(operator, ElementRPN.expression.get(i), null);
                         elementRPN.correctExpression(op, i, operatorRPN.result);
-                        i=0;
+                        input();
                     }
                 }
 
