@@ -19,7 +19,7 @@ public class InputOperation {
     };
     NumberRPN numberRPN = new NumberRPN();
     OperatorRPN operatorRPN = new OperatorRPN();
-
+    ArrayList<String> expressionAll;
     String operator;
     Integer op;
     Integer inputCorrect =0;
@@ -67,8 +67,8 @@ public class InputOperation {
     public void corrrectArray(){
         //        inputExample();
         correct();
-        ElementRPN.expression = new ArrayList<String>( Arrays.asList(String.valueOf(input).split(" ")));
-        System.out.println("My expression " + ElementRPN.expression);
+        expressionAll = new ArrayList<String>( Arrays.asList(String.valueOf(input).split(" ")));
+        System.out.println("My expression " + expressionAll);
         inputCorrect =1;
     }
 
@@ -76,36 +76,36 @@ public class InputOperation {
         if (!inputCorrect.equals(1)){
             corrrectArray();
         }
-        for (int i = 0; i < ElementRPN.expression.size(); i++) {
+        for (int i = 0; i < expressionAll.size(); i++) {
             try {
                 // число ли это
-                numberRPN.num(Double.parseDouble(ElementRPN.expression.get(i)));
+                numberRPN.num(Double.parseDouble(expressionAll.get(i)));
                 System.out.println("MAP "+operatorRPN.operators);
                 if (!operatorRPN.operators.get("2").equals(null)){
                     try{
-                        op = operatorRPN.getOperator(operator, ElementRPN.expression.get(i-2), ElementRPN.expression.get(i));
+                        op = operatorRPN.getOperator(operator, expressionAll.get(i-2), expressionAll.get(i));
                         elementRPN.correctExpression(op, i, operatorRPN.result);
                         operatorRPN.operators.remove("2");
                         input();
                     }catch (Exception e){
-                        op = operatorRPN.getOperator(operator, ElementRPN.expression.get(i), null);
+                        op = operatorRPN.getOperator(operator, expressionAll.get(i), null);
                         elementRPN.correctExpression(op, i, operatorRPN.result);
                         input();
                     }
                 }
-                System.out.println("eeeto "+operatorRPN.operators.get("3") + " "+ ElementRPN.expression.size() + " "+ i +" "+ ElementRPN.expression.get(i)+ " " + operatorRPN.operators.get("1")+ " " + operatorRPN.operators.get("2") );
-                if (i==(ElementRPN.expression.size()-1) &&
+
+                if (i==(expressionAll.size()-1) &&
                         operatorRPN.operators.get("1").equals(null)
 //                        && operatorRPN.operators.get("2").equals(null)
                         ){
                     System.out.println("вошел");
                     try{
-                        op = operatorRPN.getOperator(operator, ElementRPN.expression.get(i-2), ElementRPN.expression.get(i));
+                        op = operatorRPN.getOperator(operator, expressionAll.get(i-2), expressionAll.get(i));
                         elementRPN.correctExpression(op, i, operatorRPN.result);
                         operatorRPN.operators.remove("2");
                         input();
                     }catch (Exception e){
-                        op = operatorRPN.getOperator(operator, ElementRPN.expression.get(i), null);
+                        op = operatorRPN.getOperator(operator, expressionAll.get(i), null);
                         elementRPN.correctExpression(op, i, operatorRPN.result);
                         input();
                     }
@@ -147,7 +147,7 @@ public class InputOperation {
 //                    }
 //                }
             }catch (Exception e){
-                operator = ElementRPN.expression.get(i);
+                operator = expressionAll.get(i);
                 operatorRPN.isOperator(operator);
             }
         }
